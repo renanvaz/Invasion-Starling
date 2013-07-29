@@ -1,14 +1,12 @@
 package game.display.itens
 {
-	import game.display.GameSprite;
+	import game.display.sprites.SpriteBase;
 	
-	public class ItemAbstract extends GameSprite {
+	public class ItemBase extends SpriteBase {
 		
-		public function ItemAbstract () {
+		public function ItemBase () {
 			
 		}
-		
-		public function get():void {}
 		
 	}
 }

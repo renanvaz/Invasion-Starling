@@ -3,10 +3,15 @@ package
     import flash.desktop.NativeApplication;
     import flash.display.Bitmap;
     import flash.display.Sprite;
+    import flash.display.Stage;
     import flash.events.Event;
+    import flash.events.StatusEvent;
     import flash.filesystem.File;
     import flash.geom.Rectangle;
+    import flash.net.URLRequest;
     import flash.system.Capabilities;
+    
+    import air.net.URLMonitor;
     
     import starling.core.Starling;
     import starling.events.Event;
@@ -14,10 +19,6 @@ package
     import starling.utils.RectangleUtil;
     import starling.utils.ScaleMode;
     import starling.utils.VAlign;
-	
-	import air.net.URLMonitor;
-	import flash.net.URLRequest;
-	import flash.events.StatusEvent;
     
     [SWF(width="320", height="480", frameRate="30", backgroundColor="#000000")]
     public class Start extends Sprite
@@ -30,8 +31,11 @@ package
         
         private var mStarling:Starling;
         
+		public static var FPS:int;
+		
         public function Start()
         {
+			Start.FPS = this.stage.frameRate;
 			
 			var monitor:URLMonitor = new URLMonitor(new URLRequest('http://www.google.com'));
 			monitor.addEventListener(StatusEvent.STATUS, function (e:StatusEvent):void {

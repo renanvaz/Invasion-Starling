@@ -5,15 +5,17 @@
 	import starling.display.Image;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import game.engine.Engine;
 
 	public class SpriteItem extends SpriteBase {
 		private var _mode:String;
 
-		public var bubble:Bubble;
+		public var bubble:SpriteBubble;
 		public var item;
 
 		public var SCORE:Object = {
-			bubble: 20
+			bubble: 20,
+			fall: 0,
 		}
 
 		public const PHYSICS:Object = {
@@ -37,56 +39,43 @@
 			this.addChild(this.item);
 			this.mode 			= 'bubble';
 
-			this.addEventListener(TouchEvent.TOUCH, function(e):void{
-				var self:SpriteItem = e.currentTarget;
-				var touch:Object = e.getTouch(self);
+			this.hit.addEventListener(TouchEvent.TOUCH, function(){
+				var self:SpriteEte 	= e.currentTarget.parent;
+				var touch:Object 	= e.getTouch(self);
 
 				if(touch){
-					if(touch.phase == TouchPhase.BEGAN)
-					{
-						if(self.mode === 'bubble'){
-							self.score(self.SCORE['bubble']);
-							self.mode = 'fall';
-						} else {
-							self.get();
-						}
+					if(touch.phase == TouchPhase.BEGAN){
+						self.touch();
 					}
 				}
 			});
-
 		}
 
-		public function score(s:int = 0):void{
-			var p:Points = new SpritePoints(s, this.x, this.y);
-			Engine.main.addChild(p);
-			Engine.score += s;
-		}
-
-		public function die():void{
-			if(this.bubble) {
-				this.explodeBubble();
+		override public function touch():void {
+			if(this.mode === 'bubble'){
+				this.mode = 'fall';
+			} else {
+				this.collect();
 			}
+		}
 
+		override public function collect():void {
+			this.score(this.SCORE.collect[this.mode]);
+			this.remove();
+		}
+
+		override public function lose():void {
+			Engine.life--;
 			Engine.remove(this);
 		}
 
-
-		public function get():void{
+		override public function remove():void {
 			SoundManager.play('item');
 
 			var s:SpriteStars = new SpriteStars(this.x, this.y);
 			this.parent.addChild(s);
 
 			Engine.remove(this);
-		}
-
-		public function explodeBubble():void {
-			var b:SpriteBubble = new SpriteBubble('explode');
-
-			b.x = this.x;
-			b.y = this.y;
-
-			this.parent.addChild(b);
 		}
 
 		public function set mode(v):void {
@@ -117,8 +106,7 @@
 					intensity_y = intensity_x + .5;
 
 					if(this.bubble) {
-						this.explodeBubble();
-						this.removeChild(this.bubble);
+						this.bubble.collect();
 						this.bubble = null;
 					} else {
 						if(this.direction === -1){

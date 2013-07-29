@@ -34,7 +34,5 @@
 
 		}
 	}
-
 }
-import game.pages;
 

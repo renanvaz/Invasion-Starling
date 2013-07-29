@@ -2,6 +2,7 @@
 
 	import game.display.sprites.SpriteBase;
 	import game.display.sprites.SpriteEte;
+	import game.display.sprites.SpritePoints;
 	import game.utils.EventSimple;
 	
 	import starling.display.Sprite;
@@ -29,7 +30,7 @@
 			RESET:		8
 		};
 
-		public static var Timeline:Array = 
+		public static var Timeline:Array =
 		[
 			{
 				limit: 20,
@@ -91,7 +92,7 @@
 
 		public static function process():void {
 			if(!Engine.paused){
-				Engine.currentTimeline = Engine.getTimeline(Math.floor(Engine.count/30));
+				Engine.currentTimeline = Engine.getTimeline(Math.floor(Engine.count/Start.FPS));
 
 				var sprite:SpriteBase;
 				for each(sprite in Engine.sprites){
@@ -106,8 +107,7 @@
 						|| (sprite.direction === -1 && sprite.x < (-sprite.width))
 						|| (sprite.direction === 1 && sprite.x > (Engine.main.stage.stageWidth + sprite.width))
 					 ){
-						Engine.remove(sprite);
-						Engine.life--;
+					 	sprite.lose();
 					}
 				}
 
@@ -116,10 +116,10 @@
 
 					var max:Number = Engine.currentTimeline.enemys.interval.max;
 					var min:Number = Engine.currentTimeline.enemys.interval.min;
-					maxFrames = Engine.count + ((min + Math.round(Math.random() * (max - min))) * 30);
+					maxFrames = Engine.count + ((min + Math.round(Math.random() * (max - min))) * Start.FPS);
 				}
-				
-				if(Engine.count%(Engine.currentTimeline.enemys.timer.interval * 30) == 0){
+
+				if(Engine.count%(Engine.currentTimeline.enemys.timer.interval * Start.FPS) == 0){
 					for(var i:int = 0; i < Engine.currentTimeline.enemys.timer.create; i++){
 						Engine.add(new SpriteEte());
 					}
@@ -157,6 +157,13 @@
 			Engine.trigger(Engine.events.REMOVE, sprite);
 		}
 
+		public static function addScore(s:int = 0, x:Number = 0, y:Number = 0):void {
+			var p:SpritePoints = new SpritePoints(s, x, y);
+			Engine.main.addChild(p);
+			
+			Engine.score += s;
+		}
+		
 		public static function get maxLife():int {
 			return Engine._maxLife;
 		}

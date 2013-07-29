@@ -1,9 +1,6 @@
 ﻿package game.pages {
 
-	import game.display.sprites.SpriteCloud;
-	import game.display.sprites.SpriteEte;
-	import game.display.sprites.SpriteHeart;
-	import game.display.sprites.SpriteItem;
+	import game.display.sprites.*;
 	import game.engine.AssetManager;
 	import game.engine.SoundManager;
 	import game.engine.Engine;
@@ -25,10 +22,10 @@
 	*/
 
 	public class PageGame extends PageBase {
-		public var _sprites:Vector.<Sprite> = new Vector.<Sprite>();
+		public var _sprites:Vector.<SpriteBase> = new Vector.<SpriteBase>();
 
 		public var count:int 				= 0;
-		public var maxFrames:int			= 4 * 30;
+		public var maxFrames:int			= 4 * Start.FPS;
 
 		public var fxDanger:Image;
 		public var bg:Image;
@@ -40,7 +37,7 @@
 
 		public function PageGame() {
 			super();
-			
+
 			this.bg 				= Image.fromBitmap(AssetManager.get.pages.game.bg.texture, false, Starling.contentScaleFactor);
 			this.fxDanger 			= Image.fromBitmap(AssetManager.get.pages.game.danger.texture, false, Starling.contentScaleFactor);
 			this.fxDanger.blendMode = BlendMode.MULTIPLY;
@@ -69,7 +66,7 @@
 			this.containerLife.y = 6;
 			this.header.addChild(this.containerLife);
 			//
-			
+
 			containerSprites.y = this.header.height;
 
 			addChild(this.bg);
@@ -97,7 +94,7 @@
 				this.remove(sprite);
 			}
 
-			this._sprites 				= new Vector.<Sprite>();
+			this._sprites 				= new Vector.<SpriteBase>();
 			this.fxDanger.visible 		= false;
 		}
 
@@ -110,7 +107,7 @@
 			var sprite;
 
 			for each(sprite in Engine.sprites){
-				sprite.die();
+				sprite.remove();
 			}
 
 			//this.screenGameOver.visible = true;
@@ -169,7 +166,7 @@
 				this.add(c);
 
 				this.count = 0;
-				this.maxFrames = Math.round(Math.random() * (60 * 5));
+				this.maxFrames = Math.round(Math.random() * (Start.FPS * 5));
 			}
 		}
 
