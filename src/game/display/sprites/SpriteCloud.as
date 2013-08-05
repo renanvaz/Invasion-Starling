@@ -7,7 +7,7 @@
 	public class SpriteCloud extends SpriteBase {
 
 		public function SpriteCloud() {
-			this.view = Image.fromBitmap(AssetManager.get.cloud.texture, false, Starling.contentScaleFactor)
+			this.view = Image.fromBitmap(AssetManager.get.cloud.texture, false, Starling.contentScaleFactor);
 			this.addChild(this.view);
 		}
 	}

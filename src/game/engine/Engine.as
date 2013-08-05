@@ -1,7 +1,10 @@
 ﻿package game.engine {
 
+	import game.display.items.ItemAD;
+	import game.display.items.ItemHeart;
 	import game.display.sprites.SpriteBase;
 	import game.display.sprites.SpriteEte;
+	import game.display.sprites.SpriteItem;
 	import game.display.sprites.SpritePoints;
 	import game.utils.EventSimple;
 	
@@ -10,7 +13,7 @@
 	public class Engine {
 		public static var sprites:Vector.<SpriteBase> 	= new Vector.<SpriteBase>();
 		public static var count:int 					= 0;
-		public static var maxFrames:int 				= 2 * 30;
+		public static var maxFrames:int 				= 2 * Global.FPS;
 		public static var main;
 
 		public static var _paused:Boolean 				= true;
@@ -27,13 +30,16 @@
 			LIFE:		5,
 			MAX_LIFE:	6,
 			GAME_OVER:	7,
-			RESET:		8
+			RESET:		8,
+			ONLINE:		9,
+			OFFLINE:	10
 		};
 
+		public static var TimelineIndex:int = 0;
 		public static var Timeline:Array =
 		[
 			{
-				limit: 20,
+				length: 20, // Seconds
 				enemys: {
 					interval: {
 						min: 3,
@@ -46,14 +52,14 @@
 					intensity: .7
 				},
 				ads: {
-					length: 1 // Número de itens que poderão cair neste intervalo
+					create: 1 // Número de itens que poderão cair neste intervalo
 				},
 				items: {
-					length: 1 // Número de itens que poderão cair neste intervalo
+					create: 1 // Número de itens que poderão cair neste intervalo
 				}
 			},
 			{
-				limit: 60,
+				length: 40,
 				enemys: {
 					interval: {
 						min: 1,
@@ -66,10 +72,30 @@
 					intensity: 1
 				},
 				ads: {
-					length: 2
+					create: 2
 				},
 				items: {
-					length: 2
+					create: 2
+				}
+			},
+			{
+				length: 45,
+				enemys: {
+					interval: {
+						min: 1,
+						max: 3
+					},
+					timer: {
+						create: 2,
+						interval: 5
+					},
+					intensity: 1.5
+				},
+				ads: {
+					create: 4
+				},
+				items: {
+					create: 2
 				}
 			}
 		]
@@ -77,14 +103,14 @@
 		public static var currentTimeline:Object;
 
 		public static function getTimeline(s:Number):Object {
-			var _oldLimit:int = 0;
+			var count:int = 0;
 
-			for(var i:int = 0, l:int = Engine.Timeline.length - 1;  i < l; i++){
-				if(s < Engine.Timeline[i].limit && s > Number(_oldLimit)){
+			for(var i:int = 0, l:int = Engine.Timeline.length - 1;  i < l; i++){				
+				if(s <= count + (Engine.Timeline[i].length) && s > count){
 					return Engine.Timeline[i];
 				}
 
-				_oldLimit = Engine.Timeline[i].limit;
+				count += Engine.Timeline[i].length;
 			}
 
 			return Engine.Timeline[i];
@@ -92,9 +118,27 @@
 
 		public static function process():void {
 			if(!Engine.paused){
-				Engine.currentTimeline = Engine.getTimeline(Math.floor(Engine.count/Start.FPS));
-
-				var sprite:SpriteBase;
+				var sprite:SpriteBase, i:int;
+			
+				Engine.count++;
+				Engine.currentTimeline = Engine.getTimeline(Math.floor(Engine.count/Global.FPS));
+				
+				if(!Engine.currentTimeline.ads.max){
+					Engine.currentTimeline.ads.max = [];
+					
+					for(i = 0; i < Engine.currentTimeline.ads.create; i++){
+						Engine.currentTimeline.ads.max[i] = Engine.count + (Math.round(Math.random() * (Engine.currentTimeline.length - 1)) * Global.FPS);
+					}
+				}
+				
+				if(!Engine.currentTimeline.items.max){
+					Engine.currentTimeline.items.max = [];
+					
+					for(i = 0; i < Engine.currentTimeline.items.create; i++){
+						Engine.currentTimeline.items.max[i] = Engine.count + (Math.round(Math.random() * (Engine.currentTimeline.length - 1)) * Global.FPS);
+					}
+				}
+					
 				for each(sprite in Engine.sprites){
 					sprite.velocity.x += sprite.acceleration.x;
 					sprite.velocity.y += sprite.acceleration.y;
@@ -111,17 +155,31 @@
 					}
 				}
 
-				if(++Engine.count%maxFrames == 0){
+				if(Engine.count%maxFrames == 0){
 					Engine.add(new SpriteEte());
 
 					var max:Number = Engine.currentTimeline.enemys.interval.max;
 					var min:Number = Engine.currentTimeline.enemys.interval.min;
-					maxFrames = Engine.count + ((min + Math.round(Math.random() * (max - min))) * Start.FPS);
+					maxFrames = Engine.count + ((min + Math.round(Math.random() * (max - min))) * Global.FPS);
 				}
-
-				if(Engine.count%(Engine.currentTimeline.enemys.timer.interval * Start.FPS) == 0){
-					for(var i:int = 0; i < Engine.currentTimeline.enemys.timer.create; i++){
+				
+				if(Engine.count%(Engine.currentTimeline.enemys.timer.interval * Global.FPS) == 0){
+					for(i = 0; i < Engine.currentTimeline.enemys.timer.create; i++){
 						Engine.add(new SpriteEte());
+					}
+				}
+				
+				if(Global.adData.length > 0){
+					for(i = 0; i < Engine.currentTimeline.ads.create; i++){
+						if(Engine.count == Engine.currentTimeline.ads.max[i]){
+							Engine.add(new SpriteItem(new ItemAD(Global.adData[Math.round(Math.random() * (Global.adData.length - 1))])));	
+						}
+					}
+				}
+				
+				for(i = 0; i < Engine.currentTimeline.items.create; i++){
+					if(Engine.count == Engine.currentTimeline.items.max[i]){
+						Engine.add(new SpriteItem(new ItemHeart));	
 					}
 				}
 

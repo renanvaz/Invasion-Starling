@@ -30,31 +30,14 @@ package
         private static var BackgroundHD:Class;
         
         private var mStarling:Starling;
-        
-		public static var FPS:int;
 		
         public function Start()
         {
-			Start.FPS = this.stage.frameRate;
-			
-			var monitor:URLMonitor = new URLMonitor(new URLRequest('http://www.google.com'));
-			monitor.addEventListener(StatusEvent.STATUS, function (e:StatusEvent):void {
-				Global.internetStatus = monitor.available;
-				if (monitor.available) {
-					trace("Internet is available");
-				} else {
-					trace("No internet connection available");
-				}
-			});
-			monitor.start();
+			Global.FPS = this.stage.frameRate;
 			
             var stageWidth:int  = 320;
             var stageHeight:int = 480;
             var iOS:Boolean = Capabilities.manufacturer.indexOf("iOS") != -1;
-            
-            Starling.multitouchEnabled = true;  // useful on mobile devices
-            Starling.handleLostContext = !iOS;  // not necessary on iOS. Saves a lot of memory!
-            
             var viewPort:Rectangle = RectangleUtil.fit(
                 new Rectangle(0, 0, stageWidth, stageHeight), 
                 new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), 
@@ -72,6 +55,7 @@ package
             background.smoothing = true;
             addChild(background);
             
+			Starling.handleLostContext = !iOS;  // not necessary on iOS. Saves a lot of memory!
 			Starling.multitouchEnabled = false;
             mStarling = new Starling(Main, stage, viewPort);
             mStarling.stage.stageWidth  = stageWidth;

@@ -1,6 +1,10 @@
 package 
 {  
+	import flash.events.StatusEvent;
 	import flash.media.Sound;
+	import flash.net.URLRequest;
+	
+	import air.net.URLMonitor;
 	
 	import game.engine.AssetManager;
 	import game.engine.Engine;
@@ -50,6 +54,21 @@ package
 			//Engine.add(new Item(Image.fromBitmap(new AssetManager.AdTexture, false, Starling.contentScaleFactor), 120));
 			
 			this.addEventListener(Event.ENTER_FRAME, function(e:Event):void { Engine.process(); });
+			
+			var monitor:URLMonitor = new URLMonitor(new URLRequest(Global.WS));
+			monitor.addEventListener(StatusEvent.STATUS, function (e:StatusEvent):void {
+				Global.internetStatus = monitor.available;
+				if (monitor.available) {
+					Engine.trigger(Engine.events.ONLINE);
+				} else {
+					Engine.trigger(Engine.events.OFFILINE);
+				}
+			});
+			monitor.start();
+			
+			Engine.bind(Engine.events.ONLINE, function():void {
+				Global.getAdData();
+			});
 		}
 	}
 }

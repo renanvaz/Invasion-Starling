@@ -1,10 +1,17 @@
 ﻿package game.pages {
 
-	import game.display.sprites.*;
+	import flash.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	
+	import game.display.sprites.SpriteBase;
+	import game.display.sprites.SpriteCloud;
+	import game.display.sprites.SpriteEte;
+	import game.display.sprites.SpriteHeart;
 	import game.engine.AssetManager;
-	import game.engine.SoundManager;
 	import game.engine.Engine;
-
+	import game.engine.SoundManager;
+	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.BlendMode;
@@ -25,7 +32,7 @@
 		public var _sprites:Vector.<SpriteBase> = new Vector.<SpriteBase>();
 
 		public var count:int 				= 0;
-		public var maxFrames:int			= 4 * Start.FPS;
+		public var maxFrames:int			= 4 * Global.FPS;
 
 		public var fxDanger:Image;
 		public var bg:Image;
@@ -85,6 +92,8 @@
 			Engine.reset();
 			SoundManager.loop('bg');
 			SoundManager.volume('bg', .5);
+			
+			
 		}
 
 		override public function reset():void {
@@ -166,7 +175,7 @@
 				this.add(c);
 
 				this.count = 0;
-				this.maxFrames = Math.round(Math.random() * (Start.FPS * 5));
+				this.maxFrames = Math.round(Math.random() * (Global.FPS * 5));
 			}
 		}
 
@@ -183,6 +192,7 @@
 			sprite.removeFromParent(true);
 			this.containerClouds.removeChild(sprite);
 		}
+		
 	}
 
 }

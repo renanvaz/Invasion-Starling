@@ -34,8 +34,6 @@
 			this.view.pivotY = 45;
 
 			if(type == 'explode'){
-				SoundManager.play('bubble-explode');
-
 				Starling.juggler.tween(this.view, this.view.numFrames / this.view.fps, {
 					transition: Transitions.LINEAR,
 					onComplete: function():void { self.removeFromParent(true); },
@@ -49,6 +47,8 @@
 		}
 
 		override public function collect():void {
+			SoundManager.play('bubble-explode');
+			
 			Engine.addScore(this.SCORE.collect, this.parent.x, this.parent.y);
 
 			this.remove();

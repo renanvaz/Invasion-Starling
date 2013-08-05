@@ -9,6 +9,10 @@ package game.engine {
 	import starling.textures.TextureSmoothing;
 
 	public class AssetManager 	{
+		// Items
+		[Embed(source="/assets/textures/2x/sprites/itemHeart.png")]
+		public static const ItemHeartTexture:Class;
+		
 		// Heart
 		[Embed(source="/assets/textures/2x/sprites/heart.xml", mimeType="application/octet-stream")]
 		public static const HeartAtlasXml:Class;
@@ -80,10 +84,6 @@ package game.engine {
 		[Embed(source='/assets/audio/item.mp3')]
 		private static const ItemSound:Class;
 
-		// Ad
-		[Embed(source = "/assets/textures/Ad.png")]
-		public static const AdTexture:Class;
-
 		public static const get:Object = {
 			heart: {
 				texture: new HeartTexture,
@@ -114,6 +114,9 @@ package game.engine {
 					danger: {texture: new PageGameDangerTexture},
 					bg: {texture: new PageGameBgTexture}
 				}
+			},
+			items: {
+				heart: {texture: new ItemHeartTexture}
 			}
 		}
 

@@ -95,6 +95,7 @@
 		}
 
 		override public function collect():void {
+			SoundManager.play('ete-explode');
 			Engine.addScore(this.SCORE.collect[this.mode], this.x, this.y);
 			this.remove();
 		}
@@ -109,7 +110,6 @@
 				this.bubble.remove();
 			}
 
-			SoundManager.play('ete-explode');
 			var ex:MovieClip = new MovieClip(this.atlas.getTextures('explode'), 60);
 			ex.pivotX = 70;
 			ex.pivotY = 41;
