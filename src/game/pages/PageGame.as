@@ -3,7 +3,7 @@
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	
+
 	import game.display.sprites.SpriteBase;
 	import game.display.sprites.SpriteCloud;
 	import game.display.sprites.SpriteEte;
@@ -11,7 +11,7 @@
 	import game.engine.AssetManager;
 	import game.engine.Engine;
 	import game.engine.SoundManager;
-	
+
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.BlendMode;
@@ -32,7 +32,7 @@
 		public var _sprites:Vector.<SpriteBase> = new Vector.<SpriteBase>();
 
 		public var count:int 				= 0;
-		public var maxFrames:int			= 4 * Global.FPS;
+		public var maxFrames:int			= 0;
 
 		public var fxDanger:Image;
 		public var bg:Image;
@@ -86,25 +86,31 @@
 			Engine.bind(Engine.events.MAX_LIFE, this.maxLifeChange);
 			Engine.bind(Engine.events.PROCESS, this.process);
 			Engine.bind(Engine.events.GAME_OVER, this.gameOver);
-			Engine.bind(Engine.events.RESET, this.reset);
 			Engine.bind(Engine.events.SCORE, this.score);
-
-			Engine.reset();
-			SoundManager.loop('bg');
-			SoundManager.volume('bg', .5);
-			
-			
+			Engine.bind(Engine.events.RESET, this.reset);
 		}
-
+		
 		override public function reset():void {
 			var sprite:SpriteCloud;
 			for each(sprite in this._sprites){
 				sprite.dispose();
 				this.remove(sprite);
 			}
-
+			
 			this._sprites 				= new Vector.<SpriteBase>();
 			this.fxDanger.visible 		= false;
+		}
+		
+		
+		override public function onShow():void {
+			Engine.reset();
+			
+			SoundManager.loop('bg');
+			SoundManager.volume('bg', .5);
+		}
+		
+		override public function onHide():void {
+			SoundManager.stop('bg');
 		}
 
 		public function score(params):void {
@@ -175,7 +181,7 @@
 				this.add(c);
 
 				this.count = 0;
-				this.maxFrames = Math.round(Math.random() * (Global.FPS * 5));
+				this.maxFrames = Math.round(Math.random() * (Global.stage.frameRate * 5));
 			}
 		}
 
@@ -192,7 +198,7 @@
 			sprite.removeFromParent(true);
 			this.containerClouds.removeChild(sprite);
 		}
-		
+
 	}
 
 }

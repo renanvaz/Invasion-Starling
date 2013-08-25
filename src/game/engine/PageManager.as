@@ -1,5 +1,7 @@
 package game.engine {
 
+	import game.pages.PageBase;
+	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -16,18 +18,19 @@ package game.engine {
 			PageManager.main.addChild(page);
 		}
 
-		public static function get(name:String){
+		public static function get(name:String):PageBase {
 			return PageManager._pages[name];
 		}
 
-		public static function goTo(name:String, direction:String = 'left'){
-			var nextPage = PageManager.get(name);
+		public static function goTo(name:String, direction:String = 'left'):void {
+			var nextPage:Object = PageManager.get(name);
 
 			nextPage.visible = true;
-			nextPage.reset();
+			nextPage.onShow();
 
 			if(PageManager.current){
-				var currentPage = PageManager.get(current);
+				var currentPage:PageBase = PageManager.get(current);
+				currentPage.onHide();
 
 				if(direction === 'left'){
 					nextPage.x = PageManager.main.stage.stageWidth;

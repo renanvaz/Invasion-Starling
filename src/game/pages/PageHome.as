@@ -9,7 +9,7 @@
 
 	public class PageHome extends PageBase {
 
-		[Embed(source='/assets/textures/2x/home.png')]
+		[Embed(source='/../assets/textures/2x/home.png')]
 		public static const bmBg:Class;
 
 		public var bg:Image;
@@ -27,6 +27,8 @@
 
 				if(touch){
 					if(touch.phase == TouchPhase.BEGAN){
+						
+						
 						Engine.paused = false;
 						PageManager.goTo('game');
 					}

@@ -84,6 +84,8 @@
 					}
 				}
 			});
+			
+			trace(Global.stage.stageWidth, Global.viewPort.width);
 		}
 
 		override public function touch():void {
@@ -162,8 +164,8 @@
 			var intensity:Number = .5;
 			var rand_x:Number = Math.random();
 			var rand_y:Number = Math.random();
-			var sWidth:Number = Engine.main.stage.stageWidth;
-			var sHeight:Number = Engine.main.stage.stageHeight;
+			var sWidth:Number = Global.stage.stageWidth;
+			var sHeight:Number = Global.stage.stageHeight;
 
 			intensity = intensity + (Math.random() * intensity);
 

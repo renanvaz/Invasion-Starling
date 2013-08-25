@@ -7,20 +7,19 @@
 	import game.display.sprites.SpriteItem;
 	import game.display.sprites.SpritePoints;
 	import game.utils.EventSimple;
-	
-	import starling.display.Sprite;
 
 	public class Engine {
-		public static var sprites:Vector.<SpriteBase> 	= new Vector.<SpriteBase>();
 		public static var count:int 					= 0;
-		public static var maxFrames:int 				= 2 * Global.FPS;
+        public static var sprites:Vector.<SpriteBase>   = new Vector.<SpriteBase>();
 		public static var main;
+        public static var maxFrames:int                 = 0;
 
-		public static var _paused:Boolean 				= true;
-		public static var _score:int 					= 0;
-		public static var _event:EventSimple 			= new EventSimple;
-		public static var _maxLife:int 					= 0;
-		public static var _life:int 					= 0;
+		private static var _event:EventSimple 			= new EventSimple;
+		private static var _life:int 					= 0;
+        private static var _maxLife:int                 = 0;
+        private static var _paused:Boolean              = true;
+        private static var _score:int                   = 0;
+
 		public static var events:Object = {
 			ADD: 		0,
 			REMOVE: 	1,
@@ -30,9 +29,7 @@
 			LIFE:		5,
 			MAX_LIFE:	6,
 			GAME_OVER:	7,
-			RESET:		8,
-			ONLINE:		9,
-			OFFLINE:	10
+			RESET:		8
 		};
 
 		public static var TimelineIndex:int = 0;
@@ -105,7 +102,7 @@
 		public static function getTimeline(s:Number):Object {
 			var count:int = 0;
 
-			for(var i:int = 0, l:int = Engine.Timeline.length - 1;  i < l; i++){				
+			for(var i:int = 0, l:int = Engine.Timeline.length - 1;  i < l; i++){
 				if(s <= count + (Engine.Timeline[i].length) && s > count){
 					return Engine.Timeline[i];
 				}
@@ -119,26 +116,26 @@
 		public static function process():void {
 			if(!Engine.paused){
 				var sprite:SpriteBase, i:int;
-			
+
 				Engine.count++;
-				Engine.currentTimeline = Engine.getTimeline(Math.floor(Engine.count/Global.FPS));
-				
+				Engine.currentTimeline = Engine.getTimeline(Math.floor(Engine.count/Global.stage.frameRate));
+
 				if(!Engine.currentTimeline.ads.max){
 					Engine.currentTimeline.ads.max = [];
-					
+
 					for(i = 0; i < Engine.currentTimeline.ads.create; i++){
-						Engine.currentTimeline.ads.max[i] = Engine.count + (Math.round(Math.random() * (Engine.currentTimeline.length - 1)) * Global.FPS);
+						Engine.currentTimeline.ads.max[i] = Engine.count + (Math.round(Math.random() * (Engine.currentTimeline.length - 1)) * Global.stage.frameRate);
 					}
 				}
-				
+
 				if(!Engine.currentTimeline.items.max){
 					Engine.currentTimeline.items.max = [];
-					
+
 					for(i = 0; i < Engine.currentTimeline.items.create; i++){
-						Engine.currentTimeline.items.max[i] = Engine.count + (Math.round(Math.random() * (Engine.currentTimeline.length - 1)) * Global.FPS);
+						Engine.currentTimeline.items.max[i] = Engine.count + (Math.round(Math.random() * (Engine.currentTimeline.length - 1)) * Global.stage.frameRate);
 					}
 				}
-					
+
 				for each(sprite in Engine.sprites){
 					sprite.velocity.x += sprite.acceleration.x;
 					sprite.velocity.y += sprite.acceleration.y;
@@ -160,26 +157,26 @@
 
 					var max:Number = Engine.currentTimeline.enemys.interval.max;
 					var min:Number = Engine.currentTimeline.enemys.interval.min;
-					maxFrames = Engine.count + ((min + Math.round(Math.random() * (max - min))) * Global.FPS);
+					maxFrames = Engine.count + ((min + Math.round(Math.random() * (max - min))) * Global.stage.frameRate);
 				}
-				
-				if(Engine.count%(Engine.currentTimeline.enemys.timer.interval * Global.FPS) == 0){
+
+				if(Engine.count%(Engine.currentTimeline.enemys.timer.interval * Global.stage.frameRate) == 0){
 					for(i = 0; i < Engine.currentTimeline.enemys.timer.create; i++){
 						Engine.add(new SpriteEte());
 					}
 				}
-				
-				if(Global.adData.length > 0){
+
+				if(Ad.data.length > 0){
 					for(i = 0; i < Engine.currentTimeline.ads.create; i++){
 						if(Engine.count == Engine.currentTimeline.ads.max[i]){
-							Engine.add(new SpriteItem(new ItemAD(Global.adData[Math.round(Math.random() * (Global.adData.length - 1))])));	
+							Engine.add(new SpriteItem(new ItemAD(Ad.data[Math.round(Math.random() * (Ad.data.length - 1))])));
 						}
 					}
 				}
-				
+
 				for(i = 0; i < Engine.currentTimeline.items.create; i++){
 					if(Engine.count == Engine.currentTimeline.items.max[i]){
-						Engine.add(new SpriteItem(new ItemHeart));	
+						Engine.add(new SpriteItem(new ItemHeart));
 					}
 				}
 
@@ -218,10 +215,10 @@
 		public static function addScore(s:int = 0, x:Number = 0, y:Number = 0):void {
 			var p:SpritePoints = new SpritePoints(s, x, y);
 			Engine.main.addChild(p);
-			
+
 			Engine.score += s;
 		}
-		
+
 		public static function get maxLife():int {
 			return Engine._maxLife;
 		}

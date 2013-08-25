@@ -3,7 +3,14 @@ package game.engine {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
-
+	
+	/*
+	SoundManager.add('test', new testSound as Sound);
+	SoundManager.add('test2', new test2Sound as Sound);
+	SoundManager.loop('test', 3);
+	SoundManager.volume('test', .3);
+	SoundManager.play('test2');
+	*/
 	public class SoundManager {
 		private static var cache:Object = {};
 

@@ -9,7 +9,7 @@
 
 	public class PageStart extends PageBase {
 
-		[Embed(source='/assets/textures/2x/start.png')]
+		[Embed(source='/../assets/textures/2x/start.png')]
 		public static const bmBg:Class;
 
 		public var bg:Image;

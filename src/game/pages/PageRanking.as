@@ -5,7 +5,7 @@
 
 	public class PageRanking extends PageBase {
 
-		[Embed(source='/assets/textures/2x/ranking.png')]
+		[Embed(source='/../assets/textures/2x/ranking.png')]
 		public static const bmBg:Class;
 
 		public var bg:Image;

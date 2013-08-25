@@ -8,7 +8,7 @@
 
 	public class PageToDo extends PageBase {
 
-		[Embed(source='/assets/textures/2x/todo.png')]
+		[Embed(source='/../assets/textures/2x/todo.png')]
 		public static const bmBg:Class;
 
 		public var bg:Image;
