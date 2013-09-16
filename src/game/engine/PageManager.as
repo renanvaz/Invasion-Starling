@@ -1,5 +1,8 @@
 package game.engine {
 
+	import com.greensock.TweenNano;
+	import com.greensock.easing.Expo;
+	
 	import game.pages.PageBase;
 	
 	import starling.animation.Transitions;
@@ -34,7 +37,8 @@ package game.engine {
 
 				if(direction === 'left'){
 					nextPage.x = PageManager.main.stage.stageWidth;
-
+					
+					/*
 					Starling.juggler.tween(currentPage, 1.2, {
 						transition: Transitions.EASE_OUT,
 						onComplete: function():void { currentPage.visible = false; },
@@ -44,9 +48,15 @@ package game.engine {
 						transition: Transitions.EASE_OUT,
 						x: 0
 					});
+					*/
+
+					TweenNano.to(currentPage, 1.2, {x: -PageManager.main.stage.stageWidth, onComplete: function():void { currentPage.visible = false; }, ease: Expo.easeInOut});
+					TweenNano.to(nextPage, 1.2, {x: 0, ease: Expo.easeInOut});
+					
 				}else if(direction === 'right'){
 					nextPage.x = -nextPage.width;
 
+					/*
 					Starling.juggler.tween(currentPage, 1.2, {
 						transition: Transitions.EASE_OUT,
 						onComplete: function():void { currentPage.visible = false; },
@@ -56,6 +66,10 @@ package game.engine {
 						transition: Transitions.EASE_OUT,
 						x: 0
 					});
+					*/
+					
+					TweenNano.to(currentPage, 1.2, {x: PageManager.main.stage.stageWidth, onComplete: function():void { currentPage.visible = false; }, ease: Expo.easeInOut});
+					TweenNano.to(nextPage, 1.2, {x: 0, ease: Expo.easeInOut});
 				}
 			}else{
 				nextPage.x = nextPage.y = 0;

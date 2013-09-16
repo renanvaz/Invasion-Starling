@@ -1,17 +1,23 @@
 package {
+	import flash.events.StatusEvent;
+	import flash.media.Sound;
+	import flash.net.URLRequest;
+
 	import air.net.URLMonitor;
 
-    import feathers.themes.MetalWorksMobileTheme;
+	import feathers.data.ListCollection;
+	import feathers.themes.MetalWorksMobileTheme;
 
-    import flash.events.StatusEvent;
-    import flash.media.Sound;
-    import flash.net.URLRequest;
-
-    import game.engine.AssetManager;
-    import game.engine.Engine;
-    import game.engine.PageManager;
-    import game.pages.*;
-    import game.utils.EventSimple;
+	import game.engine.AssetManager;
+	import game.engine.Engine;
+	import game.engine.PageManager;
+	import game.pages.PageGame;
+	import game.pages.PageHome;
+	import game.pages.PageRanking;
+	import game.pages.PageRankingFB;
+	import game.pages.PageStart;
+	import game.pages.PageToDo;
+	import game.utils.EventSimple;
 
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -29,8 +35,8 @@ package {
 		}
 
 		private function onAdded():void {
-            new MetalWorksMobileTheme(); // Setup feathers theme
-            AssetManager.setup();
+			AssetManager.setup();
+            Global.theme = new MetalWorksMobileTheme(); // Setup feathers theme
 
 			setupPages();
             setupInternetVerification();
@@ -62,7 +68,23 @@ package {
             monitor.start();
 
             App.bind(App.events.ONLINE, function():void {
-                Ad.getData();
+                WS.call({
+                    method: 'ad',
+                    callback: function(res):void {
+                        if(res){
+                            Global.data.set('ad', res);
+                        }
+                    }
+                });
+
+				WS.call({
+					method: 'ranking',
+					callback: function(res):void {
+						if(res){
+							Global.data.set('ranking', res);
+						}
+					}
+				});
             });
         }
 

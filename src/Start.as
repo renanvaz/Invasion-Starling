@@ -12,7 +12,7 @@ package {
     import starling.utils.ScaleMode;
     import starling.utils.VAlign;
 
-    [SWF(width="320", height="480", frameRate="30", backgroundColor="#000000")]
+    [SWF(width="320", height="480", frameRate="60", backgroundColor="#000000")]
     public class Start extends Sprite {
 
         // Bitmaps for splash screen
@@ -36,7 +36,8 @@ package {
 			Global.stage    = {
 				stageWidth: this.stage.stageWidth,
 				stageHeight: this.stage.stageHeight,
-				frameRate: this.stage.frameRate
+				frameRate: this.stage.frameRate,
+				instance: this.stage
 			};
 
             Global.viewPort = viewPort;
@@ -58,8 +59,8 @@ package {
             Starling.multitouchEnabled          = false;
 
             Global.starling                     = new Starling(App, stage, Global.viewPort);
-			Global.starling.stage.stageWidth  	= this.stage.stageWidth;
-			Global.starling.stage.stageHeight 	= this.stage.stageHeight;
+			Global.starling.stage.stageWidth  	= 320;
+			Global.starling.stage.stageHeight 	= 480;
             Global.starling.simulateMultitouch  = false;
             Global.starling.enableErrorChecking = false;
             Global.starling.antiAliasing        = 0;

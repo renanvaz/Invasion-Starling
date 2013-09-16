@@ -4,23 +4,27 @@ package
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 
-	public class Ad
+	public class WS
 	{
         public static var data:Array = [];
 
-        public static function getData():void {
+        public static function call(params:Object):void {
             if(Global.internet.active){
                 var loader:URLLoader    = new URLLoader();
                 var request:URLRequest  = new URLRequest();
-                request.url             = Global.config.WS;
+                request.url             = Global.config.WS + params.method;
                 loader.addEventListener(Event.COMPLETE, function(e:Event):void {
                     var res:Object = JSON.parse(URLLoader(e.target).data);
 
                     if(res.status){
-                        Ad.data = res.data;
+                        params.callback(res.data);
+                    }else{
+                        params.callback(false);
                     }
                 });
                 loader.load(request);
+            } else {
+                params.callback(false);
             }
         }
 

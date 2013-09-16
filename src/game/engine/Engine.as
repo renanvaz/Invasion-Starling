@@ -166,10 +166,10 @@
 					}
 				}
 
-				if(Ad.data.length > 0){
+				if(Global.data.get('ad')){
 					for(i = 0; i < Engine.currentTimeline.ads.create; i++){
 						if(Engine.count == Engine.currentTimeline.ads.max[i]){
-							Engine.add(new SpriteItem(new ItemAD(Ad.data[Math.round(Math.random() * (Ad.data.length - 1))])));
+							Engine.add(new SpriteItem(new ItemAD(Global.data.get('ad')[Math.round(Math.random() * (Global.data.get('ad').length - 1))])));
 						}
 					}
 				}
@@ -185,16 +185,16 @@
 		}
 
 		public static function reset():void {
-			Engine.maxLife 		= 5;
-			Engine.life 		= 3;
-			Engine.sprites 		= new Vector.<SpriteBase>();
 			Engine.count		= 0;
-			Engine.score		= 0;
-			Engine.maxFrames	= 3 * 30;
-
-			Engine.trigger(Engine.events.RESET);
-
+            Engine.life         = 3;
+			Engine.maxFrames	= 3 * Global.stage.frameRate;
+            Engine.maxLife      = 5;
 			Engine.paused 		= false;
+            Engine.sprites      = new Vector.<SpriteBase>();
+            Engine.score        = 0;
+
+            Engine.trigger(Engine.events.RESET);
+
 		}
 
 		public static function add(sprite:SpriteBase):void {

@@ -825,9 +825,9 @@ package feathers.themes
 
 			renderer.defaultLabelProperties.textFormat = this.largeLightTextFormat;
 			renderer.defaultLabelProperties.embedFonts = true;
-			renderer.downLabelProperties.textFormat = this.largeDarkTextFormat;
+			renderer.downLabelProperties.textFormat = this.largeLightTextFormat;
 			renderer.downLabelProperties.embedFonts = true;
-			renderer.defaultSelectedLabelProperties.textFormat = this.largeDarkTextFormat;
+			renderer.defaultSelectedLabelProperties.textFormat = this.largeLightTextFormat;
 			renderer.defaultSelectedLabelProperties.embedFonts = true;
 
 			renderer.horizontalAlign = Button.HORIZONTAL_ALIGN_LEFT;

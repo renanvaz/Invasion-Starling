@@ -1,10 +1,13 @@
 package game.pages {
 
-    import starling.display.Sprite;
+    import feathers.core.FeathersControl;
 
-    public class PageBase extends Sprite {
+    public class PageBase extends FeathersControl {
 
-        public function PageBase() {}
+        public function PageBase() {
+			this.width = Global.stage.stageWidth;
+			this.height = Global.stage.stageHeight;
+		}
 		
 		public function reset():void {}
 		public function onShow():void {}
