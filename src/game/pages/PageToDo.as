@@ -26,7 +26,8 @@
 
 				if(touch){
 					if(touch.phase == TouchPhase.BEGAN){
-						PageManager.goTo('home');
+						Global.data.set('todo', true);
+						PageManager.goTo('game');
 					}
 				}
 			});

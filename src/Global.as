@@ -28,7 +28,7 @@ package {
             // WS: 'http://127.0.0.1/rvaz/labs/Invasion-Starling/server/ws/default/'
         };
 
-		public static var data:DataObservable       = new DataObservable;
+		public static var data:DataObservable       = new DataObservable('global-data');
 
 		// Event handler
 		public static function bind(name:String, fn:Function):void{

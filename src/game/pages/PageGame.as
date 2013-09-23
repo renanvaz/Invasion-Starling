@@ -103,6 +103,7 @@
 		
 		
 		override public function onShow():void {
+			Global.stage.instance.frameRate = 30;
 			Engine.reset();
 			
 			SoundManager.loop('bg');
@@ -110,6 +111,7 @@
 		}
 		
 		override public function onHide():void {
+			Global.stage.instance.frameRate = 60;
 			SoundManager.stop('bg');
 		}
 

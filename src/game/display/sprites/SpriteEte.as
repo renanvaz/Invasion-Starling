@@ -39,11 +39,11 @@
 
 		public const PHYSICS:Object = {
 			fall: {
-				velocity: {x: 1, y: 3.5},
+				velocity: {x: 2, y: 3.5},
 				acceleration: {x: 0, y: .25}
 			},
 			bubble: {
-				velocity: {x: 1, y: 1},
+				velocity: {x: 2, y: 2},
 				acceleration: {x: 0, y: 0}
 			},
 			airplane: {

@@ -1,7 +1,6 @@
 ﻿package game.pages {
 	import game.engine.Engine;
 	import game.engine.PageManager;
-	import game.utils.ui.Modal;
 	
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -12,9 +11,6 @@
 
 		[Embed(source='/../assets/textures/2x/home.png')]
 		public static const bmBg:Class;
-		
-		[Embed(source='/../assets/textures/2x/popup.png')]
-		public static const popupBg:Class;
 
 		public var bg:Image;
 
@@ -24,9 +20,6 @@
 			this.bg = Image.fromBitmap(new bmBg, false, Starling.contentScaleFactor);
 
 			addChild(this.bg);
-			
-			var m:Modal = new Modal(this);
-			m.show(Image.fromBitmap(new popupBg, false, Starling.contentScaleFactor));
 
 			this.addEventListener(TouchEvent.TOUCH, function(e):void{
 				var self = e.currentTarget;

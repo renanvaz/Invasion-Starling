@@ -47,8 +47,7 @@ package {
             PageManager.main = this;
             PageManager.add('start', new PageStart);
             PageManager.add('todo', new PageToDo);
-            PageManager.add('ranking', new PageRanking);
-            PageManager.add('rankingFB', new PageRankingFB);
+            //PageManager.add('ranking', new PageRanking);
             PageManager.add('home', new PageHome);
             PageManager.add('game', new PageGame);
 
@@ -95,7 +94,7 @@ package {
 
         // Event handler
         private function onStep(e:Event):void {
-            Engine.process();
+			Engine.process();
         }
 
         // Statics functions
