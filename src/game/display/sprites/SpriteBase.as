@@ -12,7 +12,7 @@
 		public var acceleration:Point	= new Point;
 		public var velocity:Point		= new Point;
 		public var hit:Quad				= null;
-		public var view;
+		public var view:*               = null;
 
 		public function SpriteBase() {
 

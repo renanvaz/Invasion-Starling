@@ -17,6 +17,8 @@
 		public static const bmBg:Class;
 
 		public var bg:Image;
+		public var header:Header;
+		public var list:List;
 
 		public function PageRanking() {
 			super();
@@ -31,7 +33,7 @@
 			var backButton:Button = new Button();
 			backButton.label = "Back";
 			backButton.addEventListener(Event.TRIGGERED, function(){
-				FB.login();
+				
 			});
 			
 			header.leftItems = new <DisplayObject>[backButton];

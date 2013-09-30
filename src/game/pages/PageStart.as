@@ -36,7 +36,11 @@
 				if(touch){
 					if(touch.phase == TouchPhase.BEGAN){
 						if(Global.data.get('todo')){
-							PageManager.goTo('home');
+							if(Global.data.get('user')){
+								PageManager.goTo('home');
+							}else{
+								PageManager.goTo('connect');
+							}
 						}else{
 							PageManager.goTo('todo');
 						}

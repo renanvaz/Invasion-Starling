@@ -14,7 +14,7 @@ package {
 	import game.pages.PageGame;
 	import game.pages.PageHome;
 	import game.pages.PageRanking;
-	import game.pages.PageRankingFB;
+	import game.pages.PageConnect;
 	import game.pages.PageStart;
 	import game.pages.PageToDo;
 	import game.utils.EventSimple;
@@ -47,8 +47,9 @@ package {
             PageManager.main = this;
             PageManager.add('start', new PageStart);
             PageManager.add('todo', new PageToDo);
-            //PageManager.add('ranking', new PageRanking);
-            PageManager.add('home', new PageHome);
+			PageManager.add('connect', new PageConnect);
+			PageManager.add('home', new PageHome);
+			PageManager.add('ranking', new PageRanking);
             PageManager.add('game', new PageGame);
 
             PageManager.goTo('start');

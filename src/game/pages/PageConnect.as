@@ -7,14 +7,14 @@
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 
-	public class PageHome extends PageBase {
+	public class PageConnect extends PageBase {
 
 		[Embed(source='/../assets/textures/2x/home.png')]
 		public static const bmBg:Class;
 
 		public var bg:Image;
 
-		public function PageHome() {
+		public function PageConnect() {
 			super();
 
 			this.bg = Image.fromBitmap(new bmBg, false, Starling.contentScaleFactor);
@@ -27,11 +27,13 @@
 
 				if(touch){
 					if(touch.phase == TouchPhase.BEGAN){
-						Engine.paused = false;
-						PageManager.goTo('game');
+						FB.login();
+						
+						//PageManager.goTo('home');
 					}
 				}
 			});
 		}
 	}
+
 }
