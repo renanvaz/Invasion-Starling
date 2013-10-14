@@ -60,16 +60,13 @@ package game.utils.ui {
 			this.container.addChild(this.btClose);
 			this.container.addChild(this.btOk);
 
-			this.btClose.addEventListener(Event.TRIGGERED, function(){
+			this.btClose.addEventListener(Event.TRIGGERED, function():void {
 				self.hide();
 			});
 
-
-			this.btOk.addEventListener(Event.TRIGGERED, function(){
+			this.btOk.addEventListener(Event.TRIGGERED, function():void {
 				self.hide();
 			});
-
-			root.addChild(this.container);
 		}
 
         public function show(msg:String, config:Object = null):void {
@@ -87,7 +84,7 @@ package game.utils.ui {
 			this.txt.width = this.box.width;
 			this.txt.height = this.box.height;
 			this.txt.text = msg;
-
+			
 			this.btClose.x = this.container.width - this.btClose.width - padding;
 			this.btClose.y = padding;
 

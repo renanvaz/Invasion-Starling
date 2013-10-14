@@ -3,15 +3,16 @@
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-
+	
 	import game.display.sprites.SpriteBase;
 	import game.display.sprites.SpriteCloud;
 	import game.display.sprites.SpriteEte;
 	import game.display.sprites.SpriteHeart;
 	import game.engine.AssetManager;
 	import game.engine.Engine;
+	import game.engine.PageManager;
 	import game.engine.SoundManager;
-
+	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.BlendMode;
@@ -128,6 +129,17 @@
 			}
 
 			//this.screenGameOver.visible = true;
+			var user:Object = Global.data.get('user');
+			var date:int = new Date().getTime();
+			
+			if(user){
+				user.score.best = Math.max(user.score.best, Engine.score);
+				user.score.offline.push({score: Engine.score, date: date});
+				Global.data.set('user', user);
+			}else{
+				Global.data.set('user', {score: {best: Engine.score, offline: [{score: Engine.score, date: date}]}});	
+				PageManager.goTo('connect');
+			}
 		}
 
 		public function lifeChange(oldLife:int):void {

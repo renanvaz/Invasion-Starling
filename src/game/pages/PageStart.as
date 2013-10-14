@@ -3,6 +3,7 @@
 	import com.greensock.TweenNano;
 	
 	import game.engine.PageManager;
+	import game.utils.ui.Alert;
 	import game.utils.ui.Text;
 	
 	import starling.core.Starling;
@@ -22,6 +23,9 @@
 		public function PageStart() {
 			super();
 			
+			var a:Alert = new Alert(this);
+			
+			
 			this.bg = Image.fromBitmap(new bmBg, false, Starling.contentScaleFactor);
 			this.txtStart = new Text(Global.stage.stageWidth, 20, 'TAP TO START', Text.sizeBase);
 			this.txtStart.y = Global.stage.stageHeight - 20 - (50/Global.starling.contentScaleFactor);
@@ -35,15 +39,17 @@
 				
 				if(touch){
 					if(touch.phase == TouchPhase.BEGAN){
-						if(Global.data.get('todo')){
-							if(Global.data.get('user')){
+						a.show("teste");
+						/*var user:Object = Global.data.get('user');
+						if(user){
+							if(user.id){
 								PageManager.goTo('home');
 							}else{
 								PageManager.goTo('connect');
 							}
 						}else{
 							PageManager.goTo('todo');
-						}
+						}*/
 					}
 				}
 			});

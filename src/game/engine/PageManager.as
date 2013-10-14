@@ -28,6 +28,7 @@ package game.engine {
 
 		public static function goTo(name:String, direction:String = 'left'):void {
 			if(!PageManager.inTransition){
+				trace('Go to page: ' + name);
 				PageManager.inTransition = true;
 				
 				var nextPage:Object = PageManager.get(name);

@@ -25,14 +25,13 @@ package {
 			ACCESS_TOKEN: null
         };
 
-        public static function login():void {	
-			var a:Alert = new Alert(Global.starling.stage);
-			
+        public static function login(fn:Function):void {	
+			var fbSuccessURL:String = 'https://www.facebook.com/connect/login_success.html';
             var webView:StageWebView = new StageWebView();
             webView.viewPort = new Rectangle(0, 0, Global.viewPort.width, Global.viewPort.height);
             webView.stage =  Global.stage.instance;
-			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, function(){ 
-				if(webView.location.indexOf(Global.config.WS + 'fb') === 0){
+			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, function():void { 
+				if(webView.location.indexOf(fbSuccessURL) === 0){
 					var params:Array = webView.location.split('#');
 					var urlVariables:URLVariables = new URLVariables(params[1]);
 					
@@ -40,21 +39,20 @@ package {
 					webView.dispose();
 					
 					if(urlVariables.access_token){
-						trace(urlVariables.access_token);
 						FB.config.ACCESS_TOKEN = urlVariables.access_token;
-						a.show('Success');
-						FB.api('me', {}, function(res){ trace(res.name); });
+						
+						fn(true);
 					}else{
-						a.show('Noooo');
+						fn(false);
 					}
 				}
 			});
-            webView.loadURL('https://www.facebook.com/dialog/oauth?response_type=token&client_id='+FB.config.APP_ID+'&redirect_uri='+encodeURIComponent(Global.config.WS + 'fb'));
+            webView.loadURL('https://www.facebook.com/dialog/oauth?response_type=token&client_id='+FB.config.APP_ID+'&redirect_uri='+encodeURIComponent(fbSuccessURL));
         }
 		
 		public static function api(method:String, params:Object, callback:Function):void {
 			params = Extend.get({access_token: FB.config.ACCESS_TOKEN}, params);
-			Request.call('https://graph.facebook.com/' + method, params, function(res:String){ trace(res); callback(JSON.parse(res)); });
+			Request.call('https://graph.facebook.com/' + method, params, function(res:String):void { trace(res); callback(JSON.parse(res)); });
 		}
 
         public static var data:DataObservable       = new DataObservable;

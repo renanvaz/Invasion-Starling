@@ -36,10 +36,7 @@ package game.utils.ui {
         private var container:Sprite;
 		private static var atlas:TextureAtlas;
 
-        public static var defaults:Object = {
-            time: 0,
-            btOkLabel: 'OK'
-        };
+        public static var defaults:Object = {};
 
 		public function Loading(root:DisplayObjectContainer = null):void {
 			var self:Loading = this;
@@ -60,8 +57,6 @@ package game.utils.ui {
 
             this.container.addChild(this.box);
             this.container.addChild(this.loading);
-
-			root.addChild(this.container);
 		}
 
         public function show(config:Object = null):void {
@@ -75,7 +70,7 @@ package game.utils.ui {
 			this.loading.y = (this.box.height - this.loading.height) / 2;
 			
 			Global.starling.juggler.add(this.loading);
-
+			
 			this.modal.show(this.container, {clickToClose: false});
         }
 
